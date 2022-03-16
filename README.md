@@ -1,0 +1,1 @@
+A cross-platform application designed for analytical accounting and organization of control of enterprise objects subject to inventory accounting.
