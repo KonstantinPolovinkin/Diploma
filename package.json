@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/KonstantinPolovinkin/Diploma#readme",
   "dependencies": {
+    "systeminformation": "^5.11.9",
     "ws": "^8.5.0"
   }
 }

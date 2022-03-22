@@ -1,10 +1,48 @@
-const spawn = require('child_process').spawn;
-child = spawn('powershell.exe',['./getHW.ps1']);
+const si = require('systeminformation');
+const fs = require('fs');
 
-child.stderr.on('data', function(data) {
-  console.log('Powershell Errors: ' + data);
-});
-child.on('exit', function() {
-  console.log('Powershell Script Finished');
-});
-child.stdin.end();
+const hwInfo = [];
+
+si.system()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.bios()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.baseboard()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.chassis()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.cpu()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.mem()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.graphics()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.osInfo()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+si.diskLayout()
+  .then(data => hwInfo.push(data))
+  .catch(error => console.error(error));
+
+function writeFile() {
+  fs.writeFile('./hwInfo.json', JSON.stringify(hwInfo), (err) => {
+    if (err)
+      console.log(err);
+  });
+}
+setTimeout(() => writeFile(), 10000);
