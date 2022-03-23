@@ -4,7 +4,8 @@
   "description": "Кроссплатформенное приложение, предназначенное для аналитического учёта и организации контроля объектов предприятия, которые подлежат инвентарному учёту.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -16,9 +17,19 @@
     "url": "https://github.com/KonstantinPolovinkin/Diploma/issues"
   },
   "homepage": "https://github.com/KonstantinPolovinkin/Diploma#readme",
+  "build": {
+    "appId": "",
+    "win": {
+      "target": "nsis"
+    }
+  },
   "dependencies": {
     "node-schedule": "^2.1.0",
     "systeminformation": "^5.11.9",
     "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "electron": "^17.1.2",
+    "electron-builder": "^22.14.13"
   }
 }
