@@ -1,18 +1,19 @@
 'use strict';
 
-const net = require('net');
-const fs = require('fs');
+import net from 'net';
+import fs from 'fs';
 
-const socket = new net.Socket();
-const hwinfo = fs.readFileSync('./hwinfo.txt');
+export function sendFileToServer() {
+  const socket = new net.Socket();
 
-socket.on('data', data => {
-  console.log(JSON.stringify(data.toString('utf8')));
-});
+  socket.on('data', data => {
+    console.log(JSON.stringify(data.toString('utf8')));
+  });
 
-socket.connect({
-  port: 2000,
-  host: '127.0.0.1',
-}, () => {
-  socket.write(hwinfo);
-});
+  socket.connect({
+    port: 2000,
+    host: '127.0.0.1',
+  }, () => {
+    socket.write(fs.readFileSync('./hwinfo.json'));
+  });
+};

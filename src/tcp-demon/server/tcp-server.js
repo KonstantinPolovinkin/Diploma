@@ -1,12 +1,12 @@
 'use strict';
 
-const net = require('net');
-const fs = require('fs');
+import net from 'net';
+import fs from 'fs';
 
 const onData = (data, ...args) => {
   console.dir({ args });
   let hwinfo = data.toString('utf8');
-  fs.writeFile('hwinfo.txt', hwinfo, {encoding: 'utf8'}, (err) => {
+  fs.writeFile('hwinfo.json', hwinfo, {encoding: 'utf8'}, (err) => {
     if (err)
       console.log(err);
   });

@@ -1,11 +1,11 @@
 'use strict';
 
-const { app } = require('electron');
-const schedule = require('node-schedule');
-const si = require('systeminformation');
-const fs = require('fs');
-
-const hwInfo = [];
+import {sendFileToServer} from './tcp-client.js';
+import schedule from 'node-schedule';
+import si from 'systeminformation';
+import fs from 'fs';
+  
+let hwInfo = [];
 const siMethods = [
   'system',
   'bios',
@@ -17,42 +17,39 @@ const siMethods = [
   'osInfo',
   'diskLayout',
 ];
-
+  
 function fillArray() {
   siMethods.forEach((method) => {
     try {
       si[`${method}`]().then(data => hwInfo.push(data));
-    } catch(err) {
-      console.log(err);
-    }
+      } catch(err) {
+        console.log(err);
+      }
   });
 }
-
-function writeFile(data) {
+  
+function writeFileClientSide(data) {
   fs.writeFile('./hwInfo.json', data, (err) => {
     if (err)
     console.log(err);
   });
 }
-
+  
 function main() {
   fillArray();
-  writeFile('');
+  writeFileClientSide('');
+  
+  setTimeout(() =>
+  writeFileClientSide(JSON.stringify(hwInfo)),
+    40000);
 
   setTimeout(() =>
-    writeFile(JSON.stringify(hwInfo)),
-    20000);
-    
-  // doesn't work, writes an empty array
-  // setTimeout(() => 
-  //   app.quit(),
-  //   20000);
+  sendFileToServer(),
+    40000);
 }
-
-app.whenReady().then(() => {
-  (function () {
-    const scheduledJob = schedule.scheduleJob('42 * * * * *', function(){
-      main();
-    });
-  })();
-})
+  
+(function () {
+  const scheduledSendFile = schedule.scheduleJob('42 * * * * *', function(){
+    main();
+  });
+})();
