@@ -18,10 +18,8 @@ const siMethods = [
   'diskLayout',
 ];
   
-async function fillArray(method) {
-  await si[`${method}`]().then(data => hwInfo.push(data));
-  writeFileClientSide(JSON.stringify(hwInfo));
-  sendFileToServer();
+function fillArray(method) {
+  return si[`${method}`]().then(data => hwInfo.push(data));
 }
   
 function writeFileClientSide(data) {
@@ -31,23 +29,21 @@ function writeFileClientSide(data) {
   });
 }
 
-function fillArrayByMethods() {
-  siMethods.forEach((method) => {
+async function fillArrayByMethods() {
+  for(const method of siMethods) {
     try {
-      fillArray(method);
+      const startFillArray = await fillArray(method);
     } catch(err) {
-      console.log(err)
+      console.log(err);
     }
-  });
+  }
 }
-  
-function main() {
+   
+(async() => {
+  const scheduledSendFile = schedule.scheduleJob('42 * * * * *', async function(){
+  await fillArrayByMethods();
   writeFileClientSide('');
-  fillArrayByMethods();  
-}
-  
-(function () {
-  const scheduledSendFile = schedule.scheduleJob('42 * * * * *', function(){
-    main();
+  writeFileClientSide(JSON.stringify(hwInfo));
+  sendFileToServer();
   });
 })();
