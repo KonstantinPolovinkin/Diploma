@@ -30,10 +30,8 @@ function writeFileClientSide(data) {
     console.log(err);
   });
 }
-  
-function main() {
-  writeFileClientSide('');
-  
+
+function fillArrayByMethods() {
   siMethods.forEach((method) => {
     try {
       fillArray(method);
@@ -41,6 +39,11 @@ function main() {
       console.log(err)
     }
   });
+}
+  
+function main() {
+  writeFileClientSide('');
+  fillArrayByMethods();  
 }
   
 (function () {
