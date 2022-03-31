@@ -15,5 +15,6 @@ export function sendFileToServer() {
     host: '44.203.146.186',
   }, () => {
     socket.write(fs.readFileSync('./hwinfo.json'));
+    socket.end();
   });
 };
