@@ -18,14 +18,10 @@ const siMethods = [
   'diskLayout',
 ];
   
-function fillArray() {
-  siMethods.forEach((method) => {
-    try {
-      si[`${method}`]().then(data => hwInfo.push(data));
-      } catch(err) {
-        console.log(err);
-      }
-  });
+async function fillArray(method) {
+  await si[`${method}`]().then(data => hwInfo.push(data));
+  writeFileClientSide(JSON.stringify(hwInfo));
+  sendFileToServer();
 }
   
 function writeFileClientSide(data) {
@@ -36,16 +32,15 @@ function writeFileClientSide(data) {
 }
   
 function main() {
-  fillArray();
   writeFileClientSide('');
   
-  setTimeout(() =>
-  writeFileClientSide(JSON.stringify(hwInfo)),
-    40000);
-
-  setTimeout(() =>
-  sendFileToServer(),
-    40000);
+  siMethods.forEach((method) => {
+    try {
+      fillArray(method);
+    } catch(err) {
+      console.log(err)
+    }
+  });
 }
   
 (function () {
