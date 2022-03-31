@@ -14,7 +14,7 @@ const onData = (data) => {
 };
 
 net.createServer(socket => {
-  address = socket.address().address.replace(/:/g, '-');
+  address = socket.address().address.replace(/:/g, 'colon');
   console.log('client connected');
   console.dir(socket.address());
 
