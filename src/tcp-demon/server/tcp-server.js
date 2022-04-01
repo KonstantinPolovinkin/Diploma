@@ -18,8 +18,8 @@ async function getBaseBoardSerial(data) {
 }
 
 function WriteLocalFile(data, baseBoardSerial, HWstorageDirectory) {
-  const hwinfo = data.toString('utf8');
-  fs.writeFile(`./${HWstorageDirectory}/${baseBoardSerial}.json`, hwinfo, {encoding: 'utf8'}, (err) => {
+  const hwinfo = JSON.parse(data);
+  fs.writeFile(`./${HWstorageDirectory}/${baseBoardSerial}.json`, JSON.stringify(hwinfo, null, 2), (err) => {
     if (err)
       console.log(err);
   });
