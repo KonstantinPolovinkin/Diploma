@@ -3,13 +3,30 @@
 import net from 'net';
 import fs from 'fs';
 
-const onData = (data) => {
+async function CreateStorageDir(HWstorageDirectory) {
+  if (!fs.existsSync(HWstorageDirectory)) {
+    fs.mkdirSync(HWstorageDirectory);
+  }
+}
+
+async function getBaseBoardSerial(data) {
   const baseBoardSerial = JSON.parse(data)[2].serial;
+  const HWstorageDirectory = `./${baseBoardSerial}`;
+
+  await CreateStorageDir(HWstorageDirectory);
+  WriteLocalFile(data, baseBoardSerial, HWstorageDirectory);
+}
+
+function WriteLocalFile(data, baseBoardSerial, HWstorageDirectory) {
   const hwinfo = data.toString('utf8');
-  fs.writeFile(`${baseBoardSerial}.json`, hwinfo, {encoding: 'utf8'}, (err) => {
+  fs.writeFile(`./${HWstorageDirectory}/${baseBoardSerial}.json`, hwinfo, {encoding: 'utf8'}, (err) => {
     if (err)
       console.log(err);
   });
+}
+
+const onData = async (data) => {
+  getBaseBoardSerial(data);
 };
 
 net.createServer(socket => {
