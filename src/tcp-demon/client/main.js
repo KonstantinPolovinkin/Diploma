@@ -6,7 +6,7 @@ import si from 'systeminformation';
 import fs from 'fs';
   
 let hwInfo = [];
-const siMethods = [
+const SI_METHODS = [
   'system',
   'bios',
   'baseboard',
@@ -31,7 +31,7 @@ function writeFileClientSide(data) {
 }
 
 async function fillArrayByMethods() {
-  for(const method of siMethods) {
+  for(const method of SI_METHODS) {
     try {
       const startFillArray = await fillArray(method);
     } catch(err) {
