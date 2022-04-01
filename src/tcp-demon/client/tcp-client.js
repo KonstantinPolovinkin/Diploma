@@ -7,7 +7,7 @@ export function sendFileToServer() {
   const socket = new net.Socket();
 
   socket.on('data', data => {
-    console.log(JSON.stringify(data.toString('utf8')));
+    console.log(data.toString('utf8'));
   });
 
   socket.connect({
