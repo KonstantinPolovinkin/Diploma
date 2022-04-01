@@ -16,6 +16,7 @@ const siMethods = [
   'graphics',
   'osInfo',
   'diskLayout',
+  'networkInterfaces',
 ];
   
 function fillArray(method) {
