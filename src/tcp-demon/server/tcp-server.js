@@ -12,14 +12,15 @@ async function CreateStorageDir(HWstorageDirectory) {
 async function getBaseBoardSerial(data) {
   const baseBoardSerial = JSON.parse(data)[2].serial;
   const HWstorageDirectory = `./${baseBoardSerial}`;
+  const hwInfoFullPath = `./${HWstorageDirectory}/${baseBoardSerial}.json`;
 
   await CreateStorageDir(HWstorageDirectory);
-  WriteLocalFile(data, baseBoardSerial, HWstorageDirectory);
+  WriteLocalFile(data, hwInfoFullPath);
 }
 
-function WriteLocalFile(data, baseBoardSerial, HWstorageDirectory) {
-  const hwinfo = JSON.parse(data);
-  fs.writeFile(`./${HWstorageDirectory}/${baseBoardSerial}.json`, JSON.stringify(hwinfo, null, 2), (err) => {
+function WriteLocalFile(data, hwInfoFullPath) {
+  const hwinfo = JSON.stringify(JSON.parse(data), null, 2);
+  fs.writeFile(hwInfoFullPath, hwinfo, (err) => {
     if (err)
       console.log(err);
   });
