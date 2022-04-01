@@ -3,18 +3,16 @@
 import net from 'net';
 import fs from 'fs';
 
-let address = String;
-
 const onData = (data) => {
+  const baseBoardSerial = JSON.parse(data)[2].serial;
   const hwinfo = data.toString('utf8');
-  fs.writeFile(`${address}.json`, hwinfo, {encoding: 'utf8'}, (err) => {
+  fs.writeFile(`${baseBoardSerial}.json`, hwinfo, {encoding: 'utf8'}, (err) => {
     if (err)
       console.log(err);
   });
 };
 
 net.createServer(socket => {
-  address = socket.address().address.replace(/:/g, 'colon');
   console.log('client connected');
   console.dir(socket.address());
 
