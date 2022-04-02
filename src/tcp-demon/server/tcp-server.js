@@ -9,6 +9,7 @@ async function verifyPassword(CURRENT_DEMON_INSTANCE_PASSWORD) {
 
   if (!fs.existsSync(`./${hwInfoFullPath}/hash.json`)) {
     try {
+      fs.mkdirSync(`./${hwInfoFullPath}/`);
       const hash = await argon2.hash(CURRENT_DEMON_INSTANCE_PASSWORD);
       fs.writeFileSync(`./${hwInfoFullPath}/hash.json`, JSON.stringify(hash));
       return 1;
