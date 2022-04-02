@@ -19,10 +19,8 @@ async function verifyPassword(CURRENT_DEMON_INSTANCE_PASSWORD) {
   } else {  
     try {      
       if (await argon2.verify(JSON.parse(fs.readFileSync(`./${hwInfoFullPath}/hash.json`)), CURRENT_DEMON_INSTANCE_PASSWORD)) {
-        console.log('ok');
         return 1;
       } else {
-        console.log('not ok');
         return 0;
       }
     } catch (err) {
@@ -61,17 +59,28 @@ net.createServer(socket => {
   socket.setNoDelay(false);
   socket.on('data', async (data) => {
     const isItPassword = data.toString('utf8').startsWith('password');
+    const isItHWinfo = data.toString('utf8').startsWith('hw');
+
     if (isItPassword) {
       const getPassword = data.toString('utf8').slice(9);
-      if (await verifyPassword(getPassword)) {
-        socket.write('ok');
+      const isPasswordCorrect = await verifyPassword(getPassword);
+
+      if (isPasswordCorrect) {
+        socket.write('password is correct');
+        console.log('password is correct');
         socket.on('data', (data) => {
-          getBaseBoardSerial(data);
-        })
-      } else {
-        socket.write('not ok');
+          getBaseBoardSerial(data.toString('utf8').slice(2));
+        });
+      } else if (!isPasswordCorrect) {
+        socket.write('incorrect password');
+        console.log('WARNING: incorrect password');
+        console.log('forced disconnection from the client');
+        console.dir(socket.address());
+        socket.destroy();
       }
-    } else {
+      
+    } else if (!isItPassword && !isItHWinfo) {
+      socket.write('no password');
       console.log('WARNING: no password');
       console.log('forced disconnection from the client');
       console.dir(socket.address());
