@@ -65,11 +65,17 @@ net.createServer(socket => {
       const getPassword = data.toString('utf8').slice(9);
       if (await verifyPassword(getPassword)) {
         socket.write('ok');
+        socket.on('data', (data) => {
+          getBaseBoardSerial(data);
+        })
       } else {
         socket.write('not ok');
       }
     } else {
-      getBaseBoardSerial(data);
+      console.log('WARNING: no password');
+      console.log('forced disconnection from the client');
+      console.dir(socket.address());
+      socket.destroy();
     }
   });
   socket.on('end', () => {
