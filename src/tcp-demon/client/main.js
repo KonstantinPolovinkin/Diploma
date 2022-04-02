@@ -42,9 +42,9 @@ async function fillArrayByMethods() {
    
 (async() => {
   const scheduledSendFile = schedule.scheduleJob('42 * * * * *', async function(){
-  await fillArrayByMethods();
-  writeFileClientSide('');
-  writeFileClientSide(JSON.stringify(hwInfo));
-  sendFileToServer();
+    await fillArrayByMethods();
+    writeFileClientSide('');
+    writeFileClientSide(JSON.stringify(hwInfo));
+    sendFileToServer();
   });
 })();
