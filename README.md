@@ -89,3 +89,17 @@
 3. Хранение информации об объектах в базе с возможностью внесения изменений в отдельные поля спецификации каждого объекта;
 4. Возможность генерации QR кода данным приложением по инвентарному номеру либо id аккаунта;
 5. Возможность экспорта данных из базы в стронный формат.
+
+### ___Структура приложения___
+
+```mermaid
+flowchart TD
+   id1[[Server]] <-.-> id2[(Database)] & id3[(Cloud)]
+    id1[[Server]] <--> id4{{API}} <--> id5(Authentication)
+    id5(Authentication) <--> id6[/Mobile application/] & id7[/Desktop application/]
+        id6[/Mobile application/] --> id8([users]) & id9([admins])
+        id7[/Desktop application/] --> id10([users]) & id11([admins])
+    id5(Authentication) <--> id12[[Demon-server]]
+        id12[[Demon-server]] <--> id13(Authentication-demon-server) <--> id14([demon-clients-desktop])
+        id12[[Demon-server]] <-. if changed or not exist .-> id15[(Database-temp)]
+```
