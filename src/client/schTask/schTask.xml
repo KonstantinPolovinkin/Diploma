@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+
+ <RegistrationInfo>
+ </RegistrationInfo>
+
+<Triggers>
+  <!-- Need to specify the start time/trigger of the task in the xml file -->
+</Triggers>
+
+ <Settings>
+ </Settings>
+
+ <Actions>
+
+  <Exec>
+    <!-- Need to set the path applicable to any machine -->
+    <Command>C:\Users\Konstantin\Desktop\Diploma\src\client\schTask\hideBat.vbs</Command>
+
+    <Arguments></Arguments>
+
+    <WorkingDirectory>C:\Users\Konstantin\Desktop\Diploma\src\client\</WorkingDirectory>
+
+  </Exec>
+
+ </Actions>
+
+ <Principals>
+ </Principals>
+
+</Task>
